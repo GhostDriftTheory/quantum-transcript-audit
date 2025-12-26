@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Axiomatic Framework for Auditing Quantum-Generated Distributions</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Serif+JP:wght@400;700&display=swap');
+
+        :root {
+            --bg-base: #f8f9fa;
+            --surface: #ffffff;
+            --text-main: #121212;
+            --text-sub: #5f6368;
+            --accent: #000000;
+            --border-light: #e0e0e0;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            --max-width: 840px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Noto Serif JP', serif;
+            line-height: 2.0;
+            -webkit-font-smoothing: antialiased;
+            padding: 100px 40px;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 100px 80px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+            border: 1px solid var(--border-light);
+        }
+
+        /* --- Header Section --- */
+        header {
+            text-align: left;
+            margin-bottom: 100px;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 60px;
+        }
+
+        h1 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 2.1rem;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            color: var(--accent);
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .en-subtitle {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            margin-top: 15px;
+        }
+
+        /* --- Abstract Section --- */
+        .abstract {
+            margin: 60px 0;
+            padding: 40px;
+            background-color: #fcfcfc;
+            border: 1px solid var(--border-light);
+            font-size: 0.95rem;
+            color: #2c2c2c;
+            line-height: 2.1;
+        }
+
+        h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin: 120px 0 40px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        p {
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        /* --- Structured Blocks --- */
+        .block {
+            margin: 50px 0;
+            padding: 0;
+        }
+
+        .label {
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 0.7rem;
+            color: #fff;
+            background: var(--accent);
+            padding: 2px 10px;
+            margin-bottom: 15px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .block-title {
+            font-weight: 700;
+            display: block;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        /* --- Proof Section --- */
+        .proof-box {
+            margin-top: 30px;
+            padding: 30px 40px;
+            background: #fafafa;
+            border-left: 2px solid #eee;
+            font-size: 0.95rem;
+            font-style: italic;
+            color: #444;
+        }
+        .proof-box b {
+            font-style: normal;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            color: #000;
+            margin-right: 10px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .qed {
+            float: right;
+            font-weight: 900;
+            font-style: normal;
+        }
+
+        /* --- Math Focus --- */
+        .math-display {
+            padding: 20px 0;
+            margin: 10px 0;
+            overflow-x: auto;
+            text-align: center;
+        }
+
+        /* --- Bibliography Section --- */
+        .biblio-section {
+            margin-top: 150px;
+            padding-top: 80px;
+            border-top: 1px solid #000;
+        }
+        .biblio-intro {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-bottom: 60px;
+            font-style: italic;
+        }
+        .biblio-cat {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 0.9rem;
+            margin: 60px 0 25px;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .biblio-list { list-style: none; }
+        .biblio-item {
+            margin-bottom: 30px;
+        }
+        .biblio-author { font-weight: 700; color: #000; }
+        .biblio-title { font-style: italic; }
+        .biblio-desc {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-top: 5px;
+            line-height: 1.7;
+        }
+
+        /* --- Conclusion & Disclaimer --- */
+        .conclusion-text {
+            margin-top: 60px;
+            font-weight: 400;
+        }
+
+        .disclaimer {
+            margin-top: 150px;
+            padding: 60px;
+            background-color: #000;
+            color: #eee;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            border-radius: 0;
+        }
+        .disclaimer-title {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #fff;
+        }
+
+        .footer {
+            margin-top: 100px;
+            text-align: center;
+        }
+        .btn-back {
+            display: inline-block;
+            padding: 20px 80px;
+            color: #000;
+            border: 1px solid #000;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+        .btn-back:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            body { padding: 40px 20px; }
+            .container { padding: 60px 30px; }
+            h1 { font-size: 1.6rem; }
+            .abstract { padding: 25px; }
+            .proof-box { padding: 20px; }
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        li { margin-bottom: 12px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>An Axiomatic Framework for Auditing Quantum-Generated Distributions</h1>
+        <span class="en-subtitle">Auditing Quantum Outputs through Adaptive Stochastic Generation</span>
+    </header>
+
+    <div class="abstract">
+        <strong>Abstract:</strong>
+        This paper treats the execution logs (transcripts) of quantum computers as adaptively generated probability distributions. By integrating 
+        (i) Measure Theory (existence and uniqueness of path measures via Ionescu–Tulcea), 
+        (ii) Martingale Analysis (finite sample guarantees via Doob Decomposition and Azuma–Hoeffding), and 
+        (iii) Information-Theoretic Lower Bounds (Le Cam-type bounds for adaptive transcripts), 
+        we present a unified framework that identifies <u>auditable guarantees (upper bounds) and unavoidable limitations (lower bounds)</u>. 
+        While this paper does not claim that quantum computing is universally optimal or unique, it axiomatically establishes that <u>quantum computation behaves as a stochastic sampler</u> and provides <u>auditable error guarantees and fundamental lower bounds</u> for its outputs.
+    </div>
+
+    <h2>1. Measure-Theoretic Construction</h2>
+
+    <div class="block">
+        <span class="label">Axiom A1</span>
+        <div class="card-content">
+            <span class="block-title">Standard Borel Space</span>
+            The observation space $(\mathcal{X}, \mathcal{B})$ is assumed to be a Standard Borel Space. This ensures the existence of regular conditional probabilities.
+        </div>
+    </div>
+
+    <div class="block">
+        <span class="label">Axiom A2</span>
+        <div class="card-content">
+            <span class="block-title">Projectability of Quantum Implementation to Classical Kernels</span>
+            Any observation $X_i$ generated by a quantum implementation (including quantum circuits, channels, and measurements) induces a stochastic kernel conditioned on the history $x_{<i}$ and control parameters $\theta$:
+            $$K_i(\cdot\mid x_{<i},\theta)\in\Delta(\mathcal{X})$$
+            Furthermore, for any measurable set $A\in\mathcal{B}$, the map
+            $$(x_{<i},\theta)\mapsto K_i(A\mid x_{<i},\theta)$$
+            is measurable (i.e., it can be treated as a classical stochastic kernel).
+        </div>
+    </div>
+
+    <div class="block">
+        <span class="label">Definition 1.1</span>
+        <div class="card-content">
+            <span class="block-title">Adaptive Policy and Stochastic Kernel</span>
+            <ul>
+                <li><strong>History:</strong> $x_{< i} := (x_1, \dots, x_{i-1}) \in \mathcal{X}^{i-1}$.</li>
+                <li><strong>Policy $\pi$:</strong> A sequence of measurable maps $\pi_i: \mathcal{X}^{i-1} \to \Theta$.</li>
+                <li><strong>Stochastic Kernel $K_i$:</strong> A map $K_i: \mathcal{X}^{i-1} \times \Theta \to \Delta(\mathcal{X})$ where, for any $A$, $x_{< i} \mapsto K_i(A \mid x_{< i}, \pi_i(x_{< i}))$ is measurable.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="block">
+        <span class="label">Theorem 1</span>
+        <div class="card-content">
+            <span class="block-title">Sampling Representation / Ionescu-Tulcea</span>
+            Given a sequence of stochastic kernels $K_i$ on a Standard Borel Space $(\mathcal{X}, \mathcal{B})$ and an adaptive policy $\pi$, there exists a unique probability measure (Path Measure) $P^\pi$ on the product space $(\mathcal{X}^m, \mathcal{B}^{\otimes m})$ satisfying the following chain rule:
+            <div class="math-display">
+                $$P^\pi(A_1 \times \dots \times A_m) = \int_{A_1} \dots \int_{A_m} \prod_{i=1}^m K_i(dx_i \mid x_{< i}, \pi_i(x_{< i}))$$
+            </div>
+            <div class="proof-box">
+                <b>Proof.</b>
+                The existence and uniqueness of the measure are guaranteed by the Ionescu-Tulcea Theorem. In quantum implementations, since each step induces a classical stochastic kernel $K_i(\cdot\mid x_{<i},\theta)$ according to Axiom A2, the Ionescu–Tulcea Theorem applies analogously.
+                <span class="qed">■</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>2. Estimation Tasks and Lipschitz Continuity</h2>
+
+    <div class="block">
+        <span class="label">Definition U1</span>
+        <div class="card-content">
+            <span class="block-title">TV Distance and Target</span>
+            Total Variation (TV) distance is defined as $d_{TV}(P, Q) := \sup_{A \in \mathcal{B}} |P(A) - Q(A)|$. For a bounded measurable function $h: \mathcal{X} \to \mathbb{R}$ ($|h| \le 1$), the functional is defined as $\mu(P) := \mathbb{E}_{P}[h]$.
+        </div>
+    </div>
+
+    <div class="block">
+        <span class="label">Definition U1''</span>
+        <div class="card-content">
+            <span class="block-title">Parametric Representation</span>
+            A reference distribution $P_\theta\in\Delta(\mathcal{X})$ is determined by the parameter $\theta$. The target value is defined as $\mu(\theta):=\mu(P_\theta)=\mathbb{E}_{P_\theta}[h]$.
+        </div>
+    </div>
+
+    <div class="block">
+        <span class="label">Lemma U1'</span>
+        <div class="card-content">
+            <span class="block-title">Expectation Bound via TV Distance</span>
+            For any probability measures $P, Q$ and any measurable function $h: \mathcal{X} \to \mathbb{R}$ satisfying $|h| \le 1$:
+            <div class="math-display">
+                $$|\mathbb{E}_{P}[h]-\mathbb{E}_{Q}[h]| \le 2\,d_{TV}(P, Q)$$
+            </div>
+            <div class="proof-box">
+                <b>Proof.</b>
+                This follows from the dual representation of the TV distance: $d_{TV}(P, Q) = \frac{1}{2}\sup_{|f|\le 1}|\mathbb{E}_{P}[f]-\mathbb{E}_{Q}[f]|$.
+                <span class="qed">■</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>3. SLA Closure under Finite Resources</h2>
+
+    <div class="block">
+        <span class="label">Assumption U2-A</span>
+        <div class="card-content">
+            <span class="block-title">Uniform Bound on TV Deviation</span>
+            Fix an ideal (reference) distribution $P_{\theta^\ast}$. Let $Q_i(\cdot) := K_i(\cdot \mid \mathcal{F}_{i-1})$ be the conditional distribution at each step. We assume there exists a constant $\gamma \in [0,1]$ such that:
+            <div class="math-display">
+                $$d_{TV}(Q_i, P_{\theta^\ast}) \le \gamma \quad \text{holds a.s. for all } i=1, \dots, m.$$
+            </div>
+        </div>
+    </div>
+
+    <div class="block">
+        <span class="label">Theorem U2</span>
+        <div class="card-content">
+            <span class="block-title">Doob Decomposition + Azuma-Hoeffding</span>
+            <p>Define the estimator as $\hat{\mu}_m := \frac{1}{m}\sum_{i=1}^m h(X_i)$. Let $\mathcal{F}_i = \sigma(X_1, \dots, X_i)$ and define the martingale difference as $\Delta_i := h(X_i) - \mathbb{E}[h(X_i) \mid \mathcal{F}_{i-1}]$. The following Doob decomposition holds:</p>
+            <div class="math-display">
+                $$\hat{\mu}_m - \mu(\theta^*) = \frac{1}{m}\sum_{i=1}^m \Delta_i + \frac{1}{m}\sum_{i=1}^m (\mathbb{E}[h(X_i) \mid \mathcal{F}_{i-1}] - \mu(\theta^*))$$
+            </div>
+            <p>Since $|h| \le 1$, we have $|\Delta_i| \le 2$ (a.s.). Applying the Azuma–Hoeffding inequality for $|\Delta_i| \le 2$, for any $\epsilon > 0$:</p>
+            <div class="math-display">
+                $$P\left( \left| \frac{1}{m}\sum_{i=1}^m \Delta_i \right| \ge \epsilon \right) \le 2\exp\left( - \frac{m\epsilon^2}{8} \right)$$
+            </div>
+            <p>Furthermore, under Assumption U2-A, applying Lemma U1' to $P=Q_i$ and $Q=P_{\theta^\ast}$ yields:</p>
+            <div class="math-display">
+                $$\left|\mathbb{E}[h(X_i)\mid\mathcal{F}_{i-1}]-\mu(\theta^\ast)\right| \le 2\,d_{TV}(Q_i, P_{\theta^\ast}) \le 2\gamma$$
+            </div>
+            <p>Consequently:</p>
+            <div class="math-display">
+                $$P\left( |\hat{\mu}_m - \mu(\theta^*)| \ge \epsilon + 2\gamma \right) \le 2\exp\left( - \frac{m\epsilon^2}{8} \right)$$
+            </div>
+            <p>Thus, the condition for satisfying an SLA $(\epsilon_{total}, \delta)$ is uniquely determined as $\epsilon_{total} > 2\gamma$ and $m \ge \frac{8}{(\epsilon_{total}-2\gamma)^2} \ln \frac{2}{\delta}$.</p>
+        </div>
+    </div>
+
+    <h2>4. Information-Theoretic Lower Bounds</h2>
+
+    <div class="block">
+        <span class="label">Theorem U3</span>
+        <div class="card-content">
+            <span class="block-title">Adaptive Lower Bounds (Le Cam + KL Chain Rule)</span>
+            <p>Let $P^\pi_\theta$ be the distribution of the transcript $X_{1:m}$ generated by an arbitrary policy $\pi$. We denote the stochastic kernel at step $i$ under parameter $\theta$ as $K_{i,\theta}$.</p>
+            
+            <p>For any two points $\theta_0, \theta_1$, let $\Delta := |\mu(\theta_0) - \mu(\theta_1)|$. For any estimator $\hat{\mu}$, the following holds:</p>
+            <div class="math-display">
+                $$ \max_{j\in\{0,1\}} P^\pi_{\theta_j}\!\left(|\hat{\mu}-\mu(\theta_j)|\ge \frac{\Delta}{2}\right) \ge \frac12\left(1-d_{TV}(P^\pi_{\theta_0},P^\pi_{\theta_1})\right). \tag{U3-1}$$
+            </div>
+            <p>Applying Pinsker's inequality:</p>
+            <div class="math-display">
+                $$ d_{TV}(P^\pi_{\theta_0},P^\pi_{\theta_1}) \le \sqrt{\frac12\,D_{KL}(P^\pi_{\theta_0}\|P^\pi_{\theta_1})}. \tag{U3-2}$$
+            </div>
+            <p>By the KL Chain Rule:</p>
+            <div class="math-display">
+                $$ D_{KL}(P^\pi_{\theta_0}\|P^\pi_{\theta_1}) = \mathbb{E}_{P^\pi_{\theta_0}}\!\left[\sum_{i=1}^m D_{KL}(K_{i,\theta_0}(\cdot\mid \mathcal{F}_{i-1})\|K_{i,\theta_1}(\cdot\mid \mathcal{F}_{i-1}))\right] \tag{U3-3}$$
+            </div>
+            <p>If the conditional KL at each step is uniformly bounded by $\kappa$:</p>
+            <div class="math-display">
+                $$D_{KL}(K_{i,\theta_0}(\cdot\mid \mathcal{F}_{i-1})\|K_{i,\theta_1}(\cdot\mid \mathcal{F}_{i-1})) \le \kappa \quad \text{a.s.} \tag{U3-4}$$
+            </div>
+            <p>Therefore, from (U3-1) and (U3-2):</p>
+            <div class="math-display">
+                $$ \max_{j\in\{0,1\}} P^\pi_{\theta_j}\!\left(|\hat{\mu}-\mu(\theta_j)|\ge \frac{\Delta}{2}\right) \ge \frac12\left(1-\sqrt{\frac{m\kappa}{2}}\right). \tag{U3-5}$$
+            </div>
+            <p>A necessary condition for achieving an error probability less than $\delta < \frac{1}{2}$ is:</p>
+            <div class="math-display">
+                $$ m\kappa \;\ge\; 2(1-2\delta)^2 \tag{U3-NEC}$$
+            </div>
+            <p>This establishes an unavoidable constraint in the auditing of adaptively generated transcripts.</p>
+            <div class="proof-box">
+                <b>Proof.</b>
+                (U3-1) follows from Le Cam's method. (U3-3) is the chain rule for kernels; assuming (U3-4) implies $D_{KL}(P^\pi_{\theta_0}\|P^\pi_{\theta_1}) \le m\kappa$. Finally, (U3-NEC) ensures the risk bound $\delta$ is achievable.
+                <span class="qed">■</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="block">
+        <span class="label">Note U3-Q</span>
+        <div class="card-content">
+            <span class="block-title">Application to Quantum Computing</span>
+            The execution of a quantum computer induces a classical stochastic kernel $K_{i,\theta}(\cdot \mid \mathcal{F}_{i-1})$ at each step by Axiom A2. Thus, Theorem U3 applies directly to quantum transcripts. Measurement processes do not increase information (Data Processing Inequality), permitting the evaluation of $\kappa$ via Quantum Relative Entropy.
+        </div>
+    </div>
+
+    <h2>5. Conclusion</h2>
+    
+    <p class="conclusion-text">
+        The above axiomatic construction establishes a framework for treating quantum computer execution logs (transcripts) as sequences of adaptive stochastic kernels under the minimal axioms (A1, A2). This framework provides (i) finite sample error guarantees (U2), and (ii) unavoidable information-theoretic lower bounds (U3) in a unified format.
+    </p>
+    <p>
+        What we have presented is not a claim of superiority for specific physical implementations, but rather a framework for <u>fixing auditable "guarantees" and "limitations"</u>, categorized by their underlying assumptions. Consequently, given input specifications, one can explicitly determine what is mathematically guaranteed and what is fundamentally impossible.
+    </p>
+
+    <div class="biblio-section">
+        <h2>Selected Bibliography</h2>
+        <div class="biblio-intro">
+            To axiomatically and measure-theoretically fix the proof structure of this audit report, the following primary literature and standard textbooks were adopted as theoretical pillars.
+        </div>
+
+        <div class="biblio-cat">A. Measure Theory & Stochastic Kernels</div>
+        <ul class="biblio-list">
+            <li class="biblio-item">
+                <span class="biblio-author">Olav Kallenberg,</span> <span class="biblio-title">Foundations of Modern Probability (Springer, 2021).</span>
+                <span class="biblio-desc">A theoretical pillar for Axiom A1 and Theorem 1. Reference for Borel spaces.</span>
+            </li>
+            <li class="biblio-item">
+                <span class="biblio-author">D. P. Bertsekas & S. E. Shreve,</span> <span class="biblio-title">Stochastic Optimal Control: The Discrete-Time Case.</span>
+                <span class="biblio-desc">Engineering standard for path measures in discrete time.</span>
+            </li>
+        </ul>
+
+        <div class="biblio-cat">B. Martingales & Concentration</div>
+        <ul class="biblio-list">
+            <li class="biblio-item">
+                <span class="biblio-author">Wassily Hoeffding,</span> <span class="biblio-title">“Probability inequalities for sums of bounded random variables” (JASA, 1963).</span>
+                <span class="biblio-desc">The origin of exponential bounds in Theorem U2.</span>
+            </li>
+            <li class="biblio-item">
+                <span class="biblio-author">Igal Sason,</span> <span class="biblio-title">“On refined versions of the Azuma–Hoeffding inequality ...”</span>
+                <span class="biblio-desc">Refined versions ensuring the reliability of SLA calculations.</span>
+            </li>
+        </ul>
+
+        <div class="biblio-cat">C. Information Theory & Lower Bounds</div>
+        <ul class="biblio-list">
+            <li class="biblio-item">
+                <span class="biblio-author">Yury Polyanskiy & Yihong Wu,</span> <span class="biblio-title">Information Theory (CUP Draft).</span>
+                <span class="biblio-desc">Modern reference for KL, TV, and Pinsker's inequality.</span>
+            </li>
+            <li class="biblio-item">
+                <span class="biblio-author">Lucien Le Cam,</span> <span class="biblio-title">Asymptotic Methods in Statistical Decision Theory (Springer, 1986).</span>
+                <span class="biblio-desc">Orthodox reference for "Le Cam's Lemma."</span>
+            </li>
+        </ul>
+
+        <div class="biblio-cat">D. Quantum Foundations</div>
+        <ul class="biblio-list">
+            <li class="biblio-item">
+                <span class="biblio-author">E. B. Davies & J. T. Lewis,</span> <span class="biblio-title">“An operational approach to quantum probability” (1970).</span>
+                <span class="biblio-desc">Classic foundatonal literature treating quantum measurement.</span>
+            </li>
+            <li class="biblio-item">
+                <span class="biblio-author">John Watrous,</span> <span class="biblio-title">The Theory of Quantum Information (CUP, 2018).</span>
+                <span class="biblio-desc">Mathematical formulation of quantum channels.</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="disclaimer">
+        <span class="disclaimer-title">Nature of this Audit Report</span>
+        This paper is not a purely mathematical pursuit of truth, but rather an engineering audit report based on "Accountability as a system" and "Auditability under finite resources" as evaluation criteria. The mathematical models are constructed to maximize the visibility of operational risks in reality.
+    </div>
+
+    <div class="footer">
+        <a href="https://www.ghostdriftresearch.com/" class="btn-back">Back to GhostDrift Research</a>
+    </div>
+</div>
+
+</body>
+</html>
