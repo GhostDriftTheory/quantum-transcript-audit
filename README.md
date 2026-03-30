@@ -4,6 +4,9 @@ This repository provides a **formal, audit-oriented mathematical framework** tha
 
 The authoritative content of this audit protocol is contained within the index.html file.
 
+🌐 GhostDrift Mathematical Institute (Official)
+[https://www.ghostdriftresearch.com/](https://www.ghostdriftresearch.com/)
+
 ## **1\. Core Objective**
 
 The purpose of this document is **not** to claim the superiority or uniqueness of any specific quantum implementation. It defines the **auditable guarantees** (upper bounds) and **unavoidable limitations** (lower bounds) for estimating functionals of adaptively generated transcripts under finite resource constraints.
